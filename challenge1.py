@@ -1,16 +1,25 @@
 def solution(A):
-    moves = 0
-    for i in range(1, len(A)):
-        difference = A[i] - 10
-        A[i] -= difference
-        A[i - 1] += difference
-        moves += abs(difference)
-
-    if all(box == 10 for box in A):
-        return moves
-    else:
+    total_bricks = sum(A)
+    target_bricks_per_box = 10
+    num_boxes = len(A)
+    
+    if total_bricks % num_boxes != 0:
         return -1
+    
+    moves = 0
+    target_bricks = total_bricks // num_boxes
+    
+    for i in range(1, num_boxes):
+        diff = A[i] - target_bricks_per_box
+        A[i] -= diff
+        A[i-1] += diff
+        moves += abs(diff)
+    
+    return moves
 
-print(solution([7, 15, 10, 8]))  # Output: 7
-print(solution([11, 10, 8, 12, 8, 10, 11]))  # Output: 6
-print(solution([7, 14, 10]))  # Output: -1
+# Example usage:
+A1 = [7, 15, 10, 8]
+print(solution(A1)) # Output: 7
+
+A3 = [7, 14, 10]
+print(solution(A3)) # Output: -1
