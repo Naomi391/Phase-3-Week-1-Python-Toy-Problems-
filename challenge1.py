@@ -1,25 +1,19 @@
+target = 10
+
 def solution(A):
-    total_bricks = sum(A)
-    target_bricks_per_box = 10
-    num_boxes = len(A)
-    
-    if total_bricks % num_boxes != 0:
+    count = 0
+    for index, number in enumerate(A):
+        if number != target and index+1 < len(A):
+            required = target - number
+            count += abs(required)
+            A[index] = target
+            A[index+1] = A[index+1] - required
+
+    if A[-1] == target:
+        return count
+    else:
         return -1
     
-    moves = 0
-    target_bricks = total_bricks // num_boxes
-    
-    for i in range(1, num_boxes):
-        diff = A[i] - target_bricks_per_box
-        A[i] -= diff
-        A[i-1] += diff
-        moves += abs(diff)
-    
-    return moves
-
-# Example usage:
-A1 = [7, 15, 10, 8]
-print(solution(A1)) # Output: 7
-
-A3 = [7, 14, 10]
-print(solution(A3)) # Output: -1
+print(solution([7,15,10,8]))
+print(solution([11,10,8,12,8,10,11]))
+print(solution([7,14,10]))
